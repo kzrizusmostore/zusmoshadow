@@ -340,6 +340,52 @@
       user-select: none;
     }
 
+    .key-field {
+      position: relative;
+      z-index: 30;
+      width: 100%;
+    }
+
+    .key-field .key-input {
+      padding-right: 58px;
+    }
+
+    .key-eye {
+      position: absolute;
+      z-index: 40;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-size: 17px;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .key-eye:active {
+      transform: translateY(-50%) scale(.96);
+      background: rgba(255,23,23,.14);
+    }
+
+    body[dir="rtl"] .key-field .key-input {
+      padding-right: 16px;
+      padding-left: 58px;
+    }
+
+    body[dir="rtl"] .key-eye {
+      right: auto;
+      left: 10px;
+    }
+
     .key-input {
       position: relative;
       z-index: 30;
@@ -1548,6 +1594,21 @@
       background: #111 !important;
       border: 1px solid rgba(255,255,255,.12) !important;
       font-weight: 900 !important;
+    }
+
+    .key-field .key-input {
+      padding-right: 58px !important;
+    }
+
+    .key-eye {
+      background: rgba(255,255,255,.055) !important;
+      border: 1px solid rgba(255,255,255,.13) !important;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22) !important;
+    }
+
+    body[dir="rtl"] .key-field .key-input {
+      padding-right: 16px !important;
+      padding-left: 58px !important;
     }
 
     .key-input:focus {
@@ -3278,20 +3339,30 @@
           <h1 class="auth-title" data-i18n="authTitle">ZUSMO SHADOW</h1>
 
           <label class="field-label" for="keyInput" data-i18n="activationKey">Activation Key</label>
-          <input
-            class="key-input"
-            id="keyInput"
-            name="activation_key"
-            type="text"
-            autocomplete="off"
-            autocapitalize="none"
-            autocorrect="off"
-            spellcheck="false"
-            inputmode="text"
-            enterkeyhint="done"
-            placeholder="Enter your key"
-            data-i18n-placeholder="enterKey"
-          />
+          <div class="key-field">
+            <input
+              class="key-input"
+              id="keyInput"
+              name="activation_key"
+              type="password"
+              autocomplete="off"
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
+              inputmode="text"
+              enterkeyhint="done"
+              placeholder="Enter your key"
+              data-i18n-placeholder="enterKey"
+            />
+            <button
+              class="key-eye"
+              id="toggleKeyVisibility"
+              type="button"
+              aria-label="Tampilkan key"
+              aria-pressed="false"
+              title="Tampilkan/Sembunyikan key"
+            >👁️</button>
+          </div>
 
           <div class="status-msg" id="statusMsg"></div>
 
@@ -3568,6 +3639,7 @@
     const faqScreen = document.getElementById('faqScreen');
     const authForm = document.getElementById('authForm');
     const keyInput = document.getElementById('keyInput');
+    const toggleKeyVisibility = document.getElementById('toggleKeyVisibility');
     const statusMsg = document.getElementById('statusMsg');
     const getKeyLink = document.getElementById('getKeyLink');
     const verifyModal = document.getElementById('verifyModal');
@@ -3611,6 +3683,22 @@
     function vibrateTap() {
       vibrateDevice(70);
     }
+
+    function setKeyVisibility(isVisible) {
+      keyInput.type = isVisible ? 'text' : 'password';
+      toggleKeyVisibility.textContent = isVisible ? '🙈' : '👁️';
+      toggleKeyVisibility.setAttribute('aria-pressed', isVisible ? 'true' : 'false');
+      toggleKeyVisibility.setAttribute('aria-label', isVisible ? 'Sembunyikan key' : 'Tampilkan key');
+      toggleKeyVisibility.title = isVisible ? 'Sembunyikan key' : 'Tampilkan key';
+    }
+
+    setKeyVisibility(false);
+
+    toggleKeyVisibility.addEventListener('click', () => {
+      const isVisible = keyInput.type === 'text';
+      setKeyVisibility(!isVisible);
+      keyInput.focus({ preventScroll: true });
+    });
 
     const keyAccessStorage = 'ghost_bot_key_access_opened_v3';
     const lastScreenStorage = 'zusmo_shadow_last_screen';
