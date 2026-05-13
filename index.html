@@ -4107,7 +4107,31 @@
       text-underline-offset: 3px !important;
     }
 
+
+
+    /* APK FIX: force page 1 wallpaper with direct URL + fallback */
+    #loadingScreen .loading-shell,
+    #loadingScreen .premium-shell {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.50), rgba(0,0,0,.56) 42%, rgba(0,0,0,.78) 100%),
+        radial-gradient(420px 260px at 52% 24%, rgba(255,0,0,.14), transparent 62%),
+        url("https://www.image2url.com/r2/default/images/1778677316679-30636987-cdce-4645-95d6-f017dafb7f48.jpg") center/cover no-repeat,
+        var(--wallpaper-main) center/cover no-repeat !important;
+      background-color: #050505 !important;
+    }
+
+    #loadingScreen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url("https://www.image2url.com/r2/default/images/1778677316679-30636987-cdce-4645-95d6-f017dafb7f48.jpg") center/cover no-repeat;
+      opacity: 0;
+      pointer-events: none;
+    }
+
 </style>
+  <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1778677316679-30636987-cdce-4645-95d6-f017dafb7f48.jpg">
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
