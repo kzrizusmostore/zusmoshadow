@@ -4130,6 +4130,41 @@
       pointer-events: none;
     }
 
+
+    /* APK FIX: hard screen isolation, no click-through between pages */
+    .screen {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      z-index: 0 !important;
+      transform: none !important;
+    }
+
+    .screen.active {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      z-index: 30 !important;
+      transform: none !important;
+    }
+
+    .screen:not(.active),
+    .screen:not(.active) * {
+      pointer-events: none !important;
+    }
+
+    #loadingScreen.active {
+      z-index: 60 !important;
+    }
+
+    #authScreen.active,
+    #vpnScreen.active,
+    #faqScreen.active {
+      z-index: 70 !important;
+    }
+
 </style>
   <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1778677316679-30636987-cdce-4645-95d6-f017dafb7f48.jpg">
 </head>
@@ -4529,6 +4564,31 @@
     const hackerRain = document.getElementById('hackerRain');
     const hackerClickFlash = document.getElementById('hackerClickFlash');
     const buyKeyAccessLink = document.getElementById('buyKeyAccessLink');
+
+    const allAppScreens = [loadingScreen, authScreen, vpnScreen, faqScreen].filter(Boolean);
+    let appStarted = false;
+    let loadingSequenceStarted = false;
+    let activeScreenName = 'loading';
+
+    function hardHideScreen(screen) {
+      if (!screen) return;
+      screen.classList.remove('active');
+      screen.setAttribute('aria-hidden', 'true');
+      screen.style.display = 'none';
+      screen.style.visibility = 'hidden';
+      screen.style.pointerEvents = 'none';
+    }
+
+    function hardShowScreen(screen) {
+      if (!screen) return;
+      screen.style.display = 'block';
+      screen.style.visibility = 'visible';
+      screen.style.pointerEvents = 'auto';
+      void screen.offsetHeight;
+      screen.classList.add('active');
+      screen.setAttribute('aria-hidden', 'false');
+    }
+
 
     function initHackerRain() {
       if (!hackerRain || hackerRain.dataset.ready === '1') return;
@@ -6681,30 +6741,42 @@
 
 
     function showOnlyScreen(screenName) {
-      loadingScreen.classList.remove('active');
-      authScreen.classList.remove('active');
-      vpnScreen.classList.remove('active');
-      faqScreen.classList.remove('active');
+      const targetName = screenName || 'loading';
+      const screenMap = {
+        loading: loadingScreen,
+        auth: authScreen,
+        vpn: vpnScreen,
+        faq: faqScreen
+      };
+      const targetScreen = screenMap[targetName] || loadingScreen;
 
-      if (screenName === 'auth') {
-        authScreen.classList.add('active');
+      allAppScreens.forEach(hardHideScreen);
+      hardShowScreen(targetScreen);
+      activeScreenName = screenMap[targetName] ? targetName : 'loading';
+
+      if (globalLangMenu) globalLangMenu.classList.remove('show');
+      if (langMenu) langMenu.classList.remove('show');
+      if (faqLangMenu) faqLangMenu.classList.remove('show');
+
+      if (activeScreenName === 'auth') {
+        localStorage.setItem(lastScreenStorage, 'auth');
         updateKeyStatus();
-        setTimeout(() => keyInput.focus(), 160);
+        setTimeout(() => {
+          if (authScreen.classList.contains('active')) keyInput.focus();
+        }, 160);
         return;
       }
 
-      if (screenName === 'vpn') {
-        vpnScreen.classList.add('active');
+      if (activeScreenName === 'vpn') {
+        localStorage.setItem(lastScreenStorage, 'vpn');
         updateVpnMaxLinkVisibility();
         return;
       }
 
-      if (screenName === 'faq') {
-        faqScreen.classList.add('active');
+      if (activeScreenName === 'faq') {
+        localStorage.setItem(lastScreenStorage, 'faq');
         return;
       }
-
-      loadingScreen.classList.add('active');
     }
 
     function hasOpenedKeyPage() {
@@ -6882,15 +6954,15 @@
     }
 
     function goDashboard() {
-      localStorage.setItem(lastScreenStorage, 'vpn');
-      authScreen.classList.remove('active');
-      faqScreen.classList.remove('active');
-      vpnScreen.classList.add('active');
-      updateVpnMaxLinkVisibility();
+      showOnlyScreen('vpn');
       setTimeout(() => showToast(t('activationSuccess')), 230);
     }
 
     function runLoadingSequence() {
+      if (loadingSequenceStarted) return;
+      loadingSequenceStarted = true;
+      showOnlyScreen('loading');
+
       const stages = [
         { upto: 28, text: t('loadingInitializing') },
         { upto: 59, text: t('loadingDecrypting') },
@@ -6905,10 +6977,10 @@
         if (stageIndex >= stages.length) {
           clearInterval(timer);
           setTimeout(() => {
-            loadingScreen.classList.remove('active');
-            authScreen.classList.add('active');
-            updateKeyStatus();
-            setTimeout(() => keyInput.focus(), 250);
+            showOnlyScreen('auth');
+            setTimeout(() => {
+              if (authScreen.classList.contains('active')) keyInput.focus();
+            }, 250);
           }, 420);
           return;
         }
@@ -7138,27 +7210,32 @@
       window.location.assign(vpnModalTargetUrl);
     });
 
-    window.addEventListener('load', () => {
+    function startAppOnce() {
+      if (appStarted) return;
+      appStarted = true;
+
       keyInput.disabled = false;
       keyInput.readOnly = false;
       applyLanguage(currentLang);
       restoreActiveTier();
 
       if (shouldReturnToVpn() && activeTier) {
-        localStorage.setItem(lastScreenStorage, 'vpn');
         showOnlyScreen('vpn');
         return;
       }
 
       if (shouldReturnToAuth()) {
-        localStorage.setItem(lastScreenStorage, 'auth');
         showOnlyScreen('auth');
         return;
       }
 
       localStorage.removeItem(lastScreenStorage);
       setTimeout(runLoadingSequence, 140);
-    });
+    }
+
+    document.addEventListener('DOMContentLoaded', startAppOnce);
+    window.addEventListener('load', startAppOnce);
+    setTimeout(startAppOnce, 650);
   </script>
 </body>
 </html>
