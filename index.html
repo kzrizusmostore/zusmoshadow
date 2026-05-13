@@ -3922,17 +3922,17 @@
 
 
 
-    /* HACKER RAIN: PAGE 2 ONLY, RED, SLOW, BEHIND UI */
+    /* HACKER RAIN RINGAN: PAGE 2 ONLY, RED, SLOW, BEHIND UI */
     .hacker-rain {
       position: absolute;
       inset: 58px 0 0;
       z-index: 1;
       overflow: hidden;
       pointer-events: none;
-      opacity: .98;
+      opacity: .55;
       mix-blend-mode: normal;
-      mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 90%, transparent 100%);
-      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 90%, transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 86%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 86%, transparent 100%);
     }
 
     .hacker-rain::before {
@@ -3940,52 +3940,47 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(180deg, transparent, rgba(255,0,0,.018), transparent),
-        repeating-linear-gradient(180deg, rgba(255,0,0,.035) 0 1px, transparent 1px 8px);
-      opacity: .28;
+        linear-gradient(180deg, transparent, rgba(255,0,0,.010), transparent),
+        repeating-linear-gradient(180deg, rgba(255,0,0,.020) 0 1px, transparent 1px 16px);
+      opacity: .14;
       pointer-events: none;
-      animation: scanMove 9.5s linear infinite;
+      animation: scanMove 16s linear infinite;
     }
 
     @keyframes scanMove {
-      from { transform: translateY(-18px); }
-      to { transform: translateY(18px); }
+      from { transform: translateY(-12px); }
+      to { transform: translateY(12px); }
     }
 
     .code-stream {
       position: absolute;
-      top: -62vh;
+      top: -48vh;
       white-space: pre;
       writing-mode: vertical-rl;
       text-orientation: mixed;
       font-family: "SFMono-Regular", "Consolas", "Roboto Mono", monospace;
-      font-size: var(--stream-size, 11px);
-      line-height: 1.16;
-      letter-spacing: .09em;
-      color: rgba(255,0,0,.56);
-      text-shadow:
-        0 0 7px rgba(255,0,0,.65),
-        0 0 15px rgba(255,0,0,.38);
-      opacity: var(--stream-opacity, .54);
-      transform: translateY(-55vh);
-      animation: hackerFall var(--fall-speed, 18s) linear infinite;
+      font-size: var(--stream-size, 10px);
+      line-height: 1.18;
+      letter-spacing: .08em;
+      color: rgba(255,0,0,.42);
+      text-shadow: 0 0 7px rgba(255,0,0,.38);
+      opacity: var(--stream-opacity, .30);
+      transform: translateY(-48vh);
+      animation: hackerFall var(--fall-speed, 34s) linear infinite;
       animation-delay: var(--fall-delay, 0s);
-      will-change: transform;
-      filter: drop-shadow(0 0 5px rgba(255,0,0,.35));
+      filter: none;
     }
 
     .code-stream.red-code,
     .code-stream.bright-code {
-      color: rgba(255,0,0,.62);
-      text-shadow:
-        0 0 8px rgba(255,0,0,.70),
-        0 0 18px rgba(255,0,0,.42);
-      opacity: var(--stream-opacity, .58);
+      color: rgba(255,0,0,.50);
+      text-shadow: 0 0 8px rgba(255,0,0,.42);
+      opacity: var(--stream-opacity, .34);
     }
 
     @keyframes hackerFall {
-      0% { transform: translateY(-62vh); }
-      100% { transform: translateY(162vh); }
+      0% { transform: translateY(-48vh); }
+      100% { transform: translateY(148vh); }
     }
 
     .hacker-click-flash {
@@ -4516,40 +4511,34 @@
       hackerRain.dataset.ready = '1';
 
       const snippets = [
-        'root@zusmo:~$ run --secure',
-        'ACCESS_GRANTED // VIP_MAX',
-        '01001010 10110100 001101',
-        'proxy.tunnel.connect()',
-        'ssh -p 443 shadow@vpn',
-        'encrypt_packet(); decrypt_key();',
-        'ZUSMO::SHADOW::ACTIVE',
-        'firewall_bypass = false;',
-        'ping 10.0.0.1 --stable',
+        'root@zusmo:~$ run',
+        'ACCESS_GRANTED',
+        '01001010 10110100',
+        'proxy.connect()',
+        'ssh shadow@vpn',
+        'encrypt_packet();',
+        'ZUSMO::ACTIVE',
         'TOKEN_SCAN_OK',
-        'VPN_GATEWAY_LOCKED',
-        '{ auth: true, mode: stealth }',
-        'sudo systemctl start shadow',
-        '0x7F 0xA2 0xC9 0x01',
-        'TRACE_ROUTE_SECURED',
-        'while(true){protect();}'
+        'GATEWAY_LOCKED',
+        '{ auth: true }'
       ];
 
-      const totalStreams = window.innerWidth <= 380 ? 24 : 34;
+      const totalStreams = window.innerWidth <= 380 ? 8 : 12;
       const fragment = document.createDocumentFragment();
 
       for (let i = 0; i < totalStreams; i += 1) {
         const stream = document.createElement('span');
         stream.className = 'code-stream';
-        if (i % 6 === 0) stream.classList.add('red-code');
-        if (i % 11 === 0) stream.classList.add('bright-code');
+        if (i % 5 === 0) stream.classList.add('red-code');
+        if (i % 9 === 0) stream.classList.add('bright-code');
 
-        const textPack = Array.from({ length: 5 }, () => snippets[Math.floor(Math.random() * snippets.length)]).join('  //  ');
+        const textPack = Array.from({ length: 2 }, () => snippets[Math.floor(Math.random() * snippets.length)]).join('  //  ');
         stream.textContent = textPack;
-        stream.style.left = ((i / totalStreams) * 100 + Math.random() * 3.4 - 1.7).toFixed(2) + '%';
-        stream.style.setProperty('--fall-speed', (17.5 + Math.random() * 11.5).toFixed(2) + 's');
-        stream.style.setProperty('--fall-delay', (-Math.random() * 28).toFixed(2) + 's');
-        stream.style.setProperty('--stream-size', (8.5 + Math.random() * 4.2).toFixed(1) + 'px');
-        stream.style.setProperty('--stream-opacity', (0.36 + Math.random() * 0.28).toFixed(2));
+        stream.style.left = ((i / totalStreams) * 100 + Math.random() * 4 - 2).toFixed(2) + '%';
+        stream.style.setProperty('--fall-speed', (32 + Math.random() * 16).toFixed(2) + 's');
+        stream.style.setProperty('--fall-delay', (-Math.random() * 36).toFixed(2) + 's');
+        stream.style.setProperty('--stream-size', (8 + Math.random() * 2.5).toFixed(1) + 'px');
+        stream.style.setProperty('--stream-opacity', (0.18 + Math.random() * 0.16).toFixed(2));
         fragment.appendChild(stream);
       }
 
