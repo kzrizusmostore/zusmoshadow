@@ -4165,6 +4165,473 @@
       z-index: 70 !important;
     }
 
+
+
+/* =========================================================
+   UI UPDATE REQUEST: PAGE 1, PAGE 2, PAGE 3 — ZUSMO PREMIUM X
+   Function logic is untouched. This section only upgrades visuals.
+   ========================================================= */
+:root {
+  --uix-bg: #030303;
+  --uix-card: rgba(15,15,16,.78);
+  --uix-line: rgba(255,255,255,.13);
+  --uix-red: #ff1018;
+  --uix-red2: #7d0006;
+  --uix-gold: #ffd66b;
+  --uix-green: #28f06f;
+  --uix-cyan: #37d9ff;
+  --uix-muted: rgba(255,255,255,.64);
+}
+
+.phone {
+  background:
+    radial-gradient(580px 270px at 50% -12%, rgba(255,16,24,.23), transparent 62%),
+    radial-gradient(420px 240px at 110% 12%, rgba(255,214,107,.09), transparent 58%),
+    linear-gradient(180deg, #070707, #020202 68%, #000) !important;
+}
+
+.screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 80%);
+  opacity: .62;
+}
+
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  z-index: 0;
+  pointer-events: none;
+  background: conic-gradient(from 120deg, transparent, rgba(255,16,24,.10), transparent 38%, rgba(255,214,107,.055), transparent 70%);
+  animation: uixAuroraSpin 16s linear infinite;
+  opacity: .82;
+}
+
+@keyframes uixAuroraSpin { to { transform: rotate(360deg); } }
+
+.shell,
+.content,
+.loading-content,
+.auth-card,
+.appbar { position: relative; z-index: 1; }
+
+.appbar {
+  height: 64px !important;
+  min-height: 64px !important;
+  padding: calc(9px + env(safe-area-inset-top)) 14px 9px !important;
+  background: rgba(2,2,2,.58) !important;
+  backdrop-filter: blur(22px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
+  border-bottom: 1px solid rgba(255,255,255,.09) !important;
+}
+
+.brand-row {
+  padding: 7px 10px 7px 7px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 18px;
+  background: rgba(255,255,255,.04);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 12px 26px rgba(0,0,0,.22);
+}
+
+.brand-wordmark {
+  letter-spacing: .105em !important;
+  font-size: 12.5px !important;
+}
+
+.top-lang-btn,
+.lang {
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.035)) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 14px 32px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* PAGE 1 — cinematic launcher */
+#loadingScreen .loading-shell {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.76) 58%, #030303),
+    radial-gradient(520px 260px at 50% 22%, rgba(255,16,24,.28), transparent 64%),
+    var(--wallpaper-main) center/cover no-repeat !important;
+}
+
+#loadingScreen .loading-content {
+  justify-content: flex-start !important;
+  padding: 70px 24px 76px !important;
+}
+
+#loadingScreen .loading-brand {
+  position: relative;
+  margin-top: 8px !important;
+  padding: 14px 14px 0;
+  font-size: clamp(34px, 10.5vw, 55px) !important;
+  line-height: .92 !important;
+  letter-spacing: .09em !important;
+}
+
+#loadingScreen .loading-brand::before {
+  content: "SECURE LAUNCHER";
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 25px;
+  padding: 0 12px;
+  margin: 0 auto 14px;
+  border-radius: 999px;
+  background: rgba(255,16,24,.10);
+  border: 1px solid rgba(255,16,24,.26);
+  color: rgba(255,255,255,.72);
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 1000;
+  letter-spacing: .22em;
+  text-shadow: none;
+}
+
+.launch-subtitle {
+  margin: 16px auto 0;
+  max-width: 330px;
+  color: rgba(255,255,255,.68);
+  font-size: 12px;
+  line-height: 1.55;
+  font-weight: 850;
+  text-align: center;
+}
+
+.launch-chips {
+  width: min(100%, 346px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin: 22px auto 0;
+}
+
+.launch-chip {
+  min-height: 54px;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  border-radius: 18px;
+  background: rgba(10,10,10,.64);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 25px rgba(0,0,0,.23);
+}
+
+.launch-chip b {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 1000;
+}
+
+.launch-chip span {
+  color: var(--uix-muted);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+#loadingScreen .loading-card.glass-card {
+  width: min(100%, 350px) !important;
+  margin-top: 34px !important;
+  padding: 26px 20px 22px !important;
+  border-radius: 32px !important;
+  background:
+    radial-gradient(280px 150px at 50% 0%, rgba(255,16,24,.20), transparent 70%),
+    linear-gradient(180deg, rgba(19,19,20,.76), rgba(7,7,7,.82)) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  box-shadow: 0 28px 70px rgba(0,0,0,.42), 0 0 42px rgba(255,16,24,.10), inset 0 1px 0 rgba(255,255,255,.07) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+}
+
+#loadingScreen .material-spinner {
+  width: 118px !important;
+  height: 118px !important;
+  margin-top: 0 !important;
+}
+
+#loadingScreen .progress-bar {
+  height: 14px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.07) !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+}
+
+#loadingScreen .progress-percent {
+  margin-top: 14px !important;
+  font-size: 27px !important;
+  color: #fff !important;
+  text-shadow: 0 0 20px rgba(255,16,24,.45);
+}
+
+#loadingScreen .progress-text {
+  margin-top: 6px !important;
+  color: rgba(255,255,255,.58) !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 10px !important;
+}
+
+/* PAGE 2 — cleaner VIP login */
+#authScreen .auth-shell {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.72) 62%, #030303),
+    radial-gradient(520px 260px at 50% 16%, rgba(255,16,24,.26), transparent 62%),
+    var(--wallpaper-main) center/cover no-repeat !important;
+}
+
+#authScreen .version-mini {
+  top: 88px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: inline-grid !important;
+  grid-template-columns: repeat(3, auto);
+  gap: 7px;
+  width: auto !important;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(7,7,7,.58);
+  border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center !important;
+  font-size: 9px !important;
+  line-height: 1 !important;
+}
+
+#authScreen .version-mini div {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.045);
+  white-space: nowrap;
+}
+
+#authScreen .auth-card {
+  top: 164px !important;
+  width: calc(100% - 28px) !important;
+  max-width: 378px !important;
+  padding: 22px 18px 20px !important;
+  border-radius: 34px !important;
+  background:
+    radial-gradient(340px 170px at 50% 0%, rgba(255,16,24,.22), transparent 68%),
+    linear-gradient(180deg, rgba(19,19,20,.82), rgba(7,7,7,.90)) !important;
+  border: 1px solid rgba(255,255,255,.13) !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,.50), 0 0 44px rgba(255,16,24,.12), inset 0 1px 0 rgba(255,255,255,.07) !important;
+}
+
+.auth-icon-premium {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255,255,255,.20), transparent 34%),
+    linear-gradient(135deg, rgba(255,16,24,.42), rgba(35,0,3,.95));
+  border: 1px solid rgba(255,16,24,.30);
+  color: #fff;
+  font-size: 28px;
+  box-shadow: 0 0 34px rgba(255,16,24,.19), inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.auth-subtitle-premium {
+  margin: -13px auto 19px;
+  max-width: 260px;
+  color: rgba(255,255,255,.58);
+  font-size: 11px;
+  line-height: 1.48;
+  font-weight: 850;
+  text-align: center;
+}
+
+#authScreen .auth-title {
+  margin-bottom: 18px !important;
+  font-size: 18px !important;
+  letter-spacing: .10em !important;
+}
+
+#authScreen .field-label {
+  margin-left: 3px;
+  color: rgba(255,255,255,.70) !important;
+}
+
+#authScreen .key-input {
+  height: 58px !important;
+  border-radius: 20px !important;
+  background: rgba(0,0,0,.42) !important;
+  border-color: rgba(255,255,255,.15) !important;
+}
+
+#authScreen .primary-btn {
+  height: 56px !important;
+  margin-top: 14px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  letter-spacing: .08em;
+}
+
+#authScreen .buy-key-access-link {
+  min-height: 46px;
+  margin-top: 14px !important;
+  display: grid !important;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.10);
+  color: #ff5c62 !important;
+  text-decoration: none !important;
+  font-weight: 1000 !important;
+}
+
+#authScreen .auth-footer {
+  bottom: 58px !important;
+}
+
+/* PAGE 3 — dashboard upgrade */
+#vpnScreen .content {
+  padding: 15px 14px 28px !important;
+  background:
+    radial-gradient(520px 240px at 50% -10%, rgba(255,16,24,.16), transparent 62%),
+    linear-gradient(180deg, #070707, #050505 60%, #020202) !important;
+}
+
+#vpnScreen .dashboard-hero {
+  min-height: 136px !important;
+  padding: 18px 16px !important;
+  border-radius: 32px !important;
+  background:
+    radial-gradient(370px 160px at 85% -10%, rgba(255,16,24,.26), transparent 68%),
+    linear-gradient(180deg, rgba(21,21,22,.86), rgba(7,7,7,.92)) !important;
+  border: 1px solid rgba(255,255,255,.13) !important;
+}
+
+#vpnScreen .dashboard-hero h2 {
+  font-size: 21px !important;
+  letter-spacing: .04em;
+}
+
+#vpnScreen .hero-kicker {
+  display: inline-flex;
+  min-height: 25px;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(40,240,111,.10);
+  border: 1px solid rgba(40,240,111,.20);
+  color: #8affaa !important;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin: -2px 0 14px;
+}
+
+.dashboard-stat {
+  min-height: 63px;
+  padding: 10px 9px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.052);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 14px 28px rgba(0,0,0,.23), inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+.dashboard-stat b {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.15;
+  font-weight: 1000;
+}
+
+.dashboard-stat span {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255,255,255,.55);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+#vpnScreen .tier-badge,
+#vpnScreen .info-card {
+  border-radius: 24px !important;
+  background:
+    radial-gradient(310px 135px at 88% 0%, rgba(255,255,255,.055), transparent 66%),
+    linear-gradient(180deg, rgba(18,18,19,.84), rgba(8,8,8,.91)) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+}
+
+#vpnScreen .tier-vip-max {
+  background:
+    radial-gradient(420px 170px at 80% 0%, rgba(255,16,24,.45), transparent 62%),
+    linear-gradient(135deg, rgba(55,0,0,.96), rgba(12,12,12,.96) 46%, rgba(92,0,0,.96)) !important;
+}
+
+#vpnScreen .info-line {
+  min-height: 28px;
+  padding: 0 2px;
+  font-size: 12px !important;
+}
+
+#vpnScreen .vpn-btn {
+  height: 62px !important;
+  border-radius: 22px !important;
+  font-size: 13px !important;
+  letter-spacing: .09em;
+}
+
+#vpnScreen .quick-links {
+  margin-top: 16px !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px !important;
+}
+
+#vpnScreen .quick-links button {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 50px !important;
+  border-radius: 19px !important;
+}
+
+#vpnScreen .credit {
+  margin-top: 22px !important;
+  min-height: 42px;
+  display: grid !important;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+#vpnScreen .version-bottom {
+  margin-top: 14px !important;
+}
+
+@media (max-width: 370px) {
+  .launch-chips,
+  .dashboard-stats { gap: 7px; }
+  .launch-chip b { font-size: 10px; }
+  .dashboard-stat b { font-size: 12px; }
+  #authScreen .version-mini { grid-template-columns: 1fr; border-radius: 20px; top: 82px !important; }
+  #authScreen .auth-card { top: 186px !important; }
+  .auth-icon-premium { width: 58px; height: 58px; font-size: 23px; margin-bottom: 10px; }
+}
+
 </style>
   <link rel="preload" as="image" href="https://www.image2url.com/r2/default/images/1778677316679-30636987-cdce-4645-95d6-f017dafb7f48.jpg">
 </head>
@@ -4191,6 +4658,13 @@
 
         <div class="loading-content">
           <div class="loading-brand">ZUSMO <span>SHADOW</span></div>
+
+          <p class="launch-subtitle">Premium proxy interface dengan akses VIP, loading lebih bersih, dan dashboard lebih modern.</p>
+          <div class="launch-chips" aria-hidden="true">
+            <div class="launch-chip"><b>OB.53</b><span>FF VERSION</span></div>
+            <div class="launch-chip"><b>V2.1</b><span>STABLE</span></div>
+            <div class="launch-chip"><b>VIP</b><span>ACCESS</span></div>
+          </div>
 
           <div class="loading-card glass-card">
             <div class="material-spinner" aria-hidden="true">
@@ -4235,6 +4709,8 @@
         </div>
 
         <form class="auth-card" id="authForm">
+
+          <div class="auth-icon-premium" aria-hidden="true">🛡️</div>
           <h1 class="auth-title" data-i18n="authTitle">ZUSMO SHADOW</h1>
 
           <label class="field-label" for="keyInput" data-i18n="activationKey">Activation Key</label>
@@ -4729,6 +5205,9 @@
     const returnToVpnStorage = 'zusmo_shadow_return_to_vpn_once';
     const returnToAuthStorage = 'zusmo_shadow_return_to_auth_once';
     const activeTierStorage = 'zusmo_shadow_active_tier_vpn_max';
+    const vpnAccessUnlockedStorage = 'zusmo_shadow_vpn_access_unlocked';
+    const vpnPurchaseStartedAtStorage = 'zusmo_shadow_vpn_purchase_started_at';
+    const VPN_PURCHASE_MIN_MS = 70 * 1000;
     const KEY_DATABASE = {
       "KZR-FREE-2026-26KF": {
             "tier": "vip",
@@ -6875,6 +7354,71 @@
       return shouldReturn;
     }
 
+
+    function hasVpnAccess() {
+      return localStorage.getItem(vpnAccessUnlockedStorage) === '1';
+    }
+
+    function markVpnPurchaseStarted() {
+      localStorage.setItem(lastScreenStorage, 'vpn');
+      localStorage.setItem(vpnPurchaseStartedAtStorage, String(Date.now()));
+      markReturnToVpn();
+    }
+
+    function completeVpnPurchaseIfEligible() {
+      const startedAt = Number(localStorage.getItem(vpnPurchaseStartedAtStorage) || '0');
+      if (!startedAt) return false;
+
+      const elapsed = Date.now() - startedAt;
+      if (elapsed < VPN_PURCHASE_MIN_MS) return false;
+
+      localStorage.setItem(vpnAccessUnlockedStorage, '1');
+      localStorage.removeItem(vpnPurchaseStartedAtStorage);
+      return true;
+    }
+
+    function showVpnActivatedPopup() {
+      showToast('🎉 Selamat, VPN berhasil diaktifkan!', 3200);
+    }
+
+    function handleVpnReturn() {
+      const purchaseCompleted = completeVpnPurchaseIfEligible();
+      const returnedFromVpnPage = shouldReturnToVpn();
+
+      if ((purchaseCompleted || returnedFromVpnPage) && activeTier) {
+        localStorage.setItem(lastScreenStorage, 'vpn');
+        showOnlyScreen('vpn');
+        if (purchaseCompleted) setTimeout(showVpnActivatedPopup, 260);
+        return true;
+      }
+
+      return false;
+    }
+
+    function startVpnConnection() {
+      if (connected) {
+        connected = false;
+        vpnBtn.className = 'vpn-btn start';
+        vpnBtn.textContent = t('startVpn');
+        proxyPill.classList.remove('show');
+        clearTimeout(proxyPillTimer);
+        showToast(t('stoppedToast'));
+        return;
+      }
+
+      vpnBtn.className = 'vpn-btn loading';
+      vpnBtn.textContent = t('startingVpn');
+      showToast(t('startingToast'));
+
+      setTimeout(() => {
+        connected = true;
+        vpnBtn.className = 'vpn-btn stop';
+        vpnBtn.textContent = t('stopVpn');
+        showProxyPill(3600);
+        showToast(t('connectedToast'));
+      }, 1200);
+    }
+
     function markReturnToAuth() {
       try {
         sessionStorage.setItem(returnToAuthStorage, '1');
@@ -7103,11 +7647,7 @@
 
     window.addEventListener('pageshow', () => {
       updateKeyStatus();
-      if (shouldReturnToVpn() && activeTier) {
-        localStorage.setItem(lastScreenStorage, 'vpn');
-        showOnlyScreen('vpn');
-        return;
-      }
+      if (handleVpnReturn()) return;
       if (shouldReturnToAuth()) {
         localStorage.setItem(lastScreenStorage, 'auth');
         showOnlyScreen('auth');
@@ -7121,6 +7661,7 @@
 
     window.addEventListener('focus', () => {
       updateKeyStatus();
+      if (handleVpnReturn()) return;
       if (shouldReturnToAuth()) {
         localStorage.setItem(lastScreenStorage, 'auth');
         showOnlyScreen('auth');
@@ -7175,8 +7716,7 @@
 
     vpnMaxLinkBtn.addEventListener('click', () => {
       if (!activeTier || activeTier.tier !== 'vip_max') return;
-      localStorage.setItem(lastScreenStorage, 'vpn');
-      markReturnToVpn();
+      markVpnPurchaseStarted();
       window.location.assign('https://zusmovpn.vercel.app');
     });
 
@@ -7194,6 +7734,12 @@
 
     vpnBtn.addEventListener('click', () => {
       vibrateTap();
+
+      if (activeTier && activeTier.tier === 'vip_max' && hasVpnAccess()) {
+        startVpnConnection();
+        return;
+      }
+
       resetVpnStartButton();
       openVpnAccessModal();
     });
@@ -7205,8 +7751,7 @@
     });
 
     vpnAccessAction.addEventListener('click', () => {
-      localStorage.setItem(lastScreenStorage, 'vpn');
-      markReturnToVpn();
+      markVpnPurchaseStarted();
       window.location.assign(vpnModalTargetUrl);
     });
 
@@ -7219,7 +7764,10 @@
       applyLanguage(currentLang);
       restoreActiveTier();
 
-      if (shouldReturnToVpn() && activeTier) {
+      if (handleVpnReturn()) return;
+
+      if (activeTier && activeTier.tier === 'vip_max') {
+        localStorage.setItem(lastScreenStorage, 'vpn');
         showOnlyScreen('vpn');
         return;
       }
